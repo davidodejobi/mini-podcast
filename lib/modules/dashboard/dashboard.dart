@@ -1,9 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:streamz/constant/helper/helper.dart';
+import 'package:streamz/modules/Details/details.dart';
 
-import '../../core/core.dart';
 import '../../shared/shared.dart';
+import 'view_model/dashboard_provider.dart';
+import 'widgets/widgets.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -12,88 +15,82 @@ class Dashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: createAppBar("Streamz", context),
-      body: ListView(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          FutureBuilder(
+              future: Future.delayed(const Duration(seconds: 0)),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    //TODO change this to a shimmer loading
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  if (snapshot.error != null) {
+                    return const Center(
+                      child: Text("An error occurred!"),
+                    );
+                  } else {
+                    return Consumer<DashboardProvider>(
+                      builder: (context, dashboardProvider, child) {
+                        return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const Details(),
+                                ),
+                              );
+                            },
+                            child: const ItemCard());
+                      },
+                    );
+                  }
+                }
+              }).paddingHorizontal(padding: 16),
           Container(
-            height: 120,
-            decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Row(
+            padding: const EdgeInsets.only(right: 16),
+            height: 65,
+            child: Column(
               children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    bottomRight: Radius.circular(20),
-                    topLeft: Radius.circular(20),
-                    bottomLeft: Radius.circular(20),
-                  ),
-                  child: Image.network(
-                    "https://storage.googleapis.com/me-samples-public-2/some-animal-friends-in-africa.png",
-                    height: 120,
-                    width: 100,
-                    fit: BoxFit.cover,
-                  ),
+                Container(
+                  height: 5,
+                  color: const Color(0xFFE0FBFC),
                 ),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Doctor Strange",
-                        style: Theme.of(context).textTheme.headline4,
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        "1880",
-                        style: Theme.of(context).textTheme.headline5!.copyWith(
-                              fontWeight: FontWeight.w300,
-                            ),
-                      ),
-                      /*
-Text(
-              content!.length > 150
-                  ? "${content!.substring(0, 150)}..."
-                  : content!,
-              style: Theme.of(context).textTheme.headline5,
-            ),
-                      */
-                      const Spacer(),
-                      Text(
-                        "You may have heard of the three shepherds who went...",
-                        style: Theme.of(context).textTheme.headline5!.copyWith(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 15,
-                            ),
-                      ),
-                    ],
-                  ).paddingAll,
-                ),
-                Consumer<StreamzTheme>(
-                  builder: (context, notifier, child) => Container(
-                    padding: const EdgeInsets.all(3),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
+                Row(
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl:
+                          "https://storage.googleapis.com/me-samples-public-2/some-animal-friends-in-africa.png",
+                      height: 60,
+                      width: 100,
+                      fit: BoxFit.cover,
                     ),
-                    child: IconButton(
-                      icon: Icon(
+                    const XMargin(5),
+                    Text(
+                      "Doctor Strange",
+                      maxLines: 1,
+                      style: Theme.of(context).textTheme.headline4!.copyWith(
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                    ),
+                    const Spacer(),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
                         Icons.play_arrow_rounded,
                         size: 30,
-                        color: notifier.isDarkTheme
-                            ? const Color(0xFFCF6679)
-                            : const Color(0xFFB00020),
+                        color: Color(0xFFEE6C4D),
                       ),
-                      onPressed: () {},
-                      tooltip: 'Play ',
                     ),
-                  ),
+                  ],
                 ),
               ],
             ),
-          ),
+          ).glassmorphism(),
         ],
-      ).paddingHorizontal(padding: 16),
+      ),
     );
   }
 }

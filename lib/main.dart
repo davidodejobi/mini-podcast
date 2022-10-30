@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:streamz/modules/dashboard/view_model/dashboard_provider.dart';
 
 import 'locator.dart';
 import 'router/route.dart';
@@ -25,20 +26,17 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<StreamzTheme>(
           create: (_) => StreamzTheme(),
         ),
+        ChangeNotifierProvider<DashboardProvider>(
+          create: (_) => DashboardProvider(),
+        ),
       ],
-      child: Consumer<StreamzTheme>(
-        builder: (context, appTheme, _) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Streamz',
-            theme: StreamzTheme.light(colorSeedLight, material3),
-            darkTheme: StreamzTheme.dark(colorSeedDark, material3),
-            themeMode: appTheme.currentTheme,
-            initialRoute: dashBoardRoute,
-            navigatorKey: getIt<NavigationService>().navigatorKey,
-            onGenerateRoute: RouteGenerator.generateRoute,
-          );
-        },
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Streamz',
+        theme: StreamzTheme.dark(colorSeedDark, material3),
+        initialRoute: dashBoardRoute,
+        navigatorKey: getIt<NavigationService>().navigatorKey,
+        onGenerateRoute: RouteGenerator.generateRoute,
       ),
     );
   }

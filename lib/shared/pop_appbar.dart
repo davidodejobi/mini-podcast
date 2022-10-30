@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'widgets/appbar_card_wih_icon.dart';
 
-PreferredSizeWidget createAppBar(
-  String title,
-  BuildContext context,
-) {
+PreferredSizeWidget popAppBar(
+  BuildContext context, {
+  required String title,
+}) {
   return PreferredSize(
     preferredSize: const Size.fromHeight(kToolbarHeight),
     child: SafeArea(
@@ -19,11 +19,13 @@ PreferredSizeWidget createAppBar(
               AppBarCardwithIcon(
                 iconButton: IconButton(
                   icon: Icon(
-                    Icons.person,
+                    Icons.arrow_back,
                     size: 20,
                     color: Theme.of(context).iconTheme.color,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                 ),
               ),
               Text(
@@ -42,12 +44,12 @@ PreferredSizeWidget createAppBar(
                 ),
                 child: IconButton(
                   icon: Icon(
-                    Icons.search,
+                    Icons.star_border_purple500_rounded,
                     size: 20,
                     color: Theme.of(context).iconTheme.color,
                   ),
                   onPressed: () {},
-                  tooltip: 'search',
+                  tooltip: 'start',
                 ),
               ),
             ],

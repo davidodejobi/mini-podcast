@@ -15,6 +15,13 @@ extension AppPadding on Widget {
         child: this,
       );
 
+  paddingBottom({double padding = 10.0}) => Padding(
+        padding: EdgeInsets.only(
+          bottom: padding,
+        ),
+        child: this,
+      );
+
   paddingHorizontal({double padding = 10.0}) => Padding(
         padding: EdgeInsets.symmetric(
           horizontal: padding,
@@ -22,9 +29,9 @@ extension AppPadding on Widget {
         child: this,
       );
 
-  Widget get paddingVertical => Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 10,
+  paddingVertical({double padding = 10.0}) => Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: padding,
         ),
         child: this,
       );

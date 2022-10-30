@@ -48,102 +48,6 @@ class MyColors extends ThemeExtension<MyColors> {
 }
 
 class StreamzTheme extends ChangeNotifier {
-  static ThemeData light(Color color, bool material3) {
-    return ThemeData.light().copyWith(
-      primaryColor: material3 ? color : null,
-      useMaterial3: material3,
-      elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xFF242A36),
-        foregroundColor: const Color(0xFFE2E6ED),
-      )),
-      iconTheme: const IconThemeData(
-        color: Color(0xFF242A36),
-      ),
-      floatingActionButtonTheme: const FloatingActionButtonThemeData(
-        backgroundColor: Color(0xFFFF7B00),
-      ),
-      scaffoldBackgroundColor: const Color(0xFFE2E6ED),
-      appBarTheme: const AppBarTheme(
-        color: Color(0xFFE2E6ED),
-      ),
-      inputDecorationTheme: const InputDecorationTheme(
-        border: OutlineInputBorder(
-          borderSide: BorderSide.none,
-        ),
-        floatingLabelBehavior: FloatingLabelBehavior.never,
-      ),
-      textTheme: const TextTheme(
-        headline1: TextStyle(
-          fontSize: 72.0,
-          color: Color(0xFF242A36),
-          fontWeight: FontWeight.bold,
-        ),
-        headline2: TextStyle(
-          fontSize: 36.0,
-          color: Color(0xFF242A36),
-          fontWeight: FontWeight.normal,
-        ),
-        headline3: TextStyle(
-          fontSize: 24.0,
-          color: Color(0xFF242A36),
-          fontWeight: FontWeight.normal,
-        ),
-        headline4: TextStyle(
-          fontSize: 20.0,
-          color: Color(0xFF242A36),
-          fontWeight: FontWeight.normal,
-        ),
-        headline5: TextStyle(
-          fontSize: 16.0,
-          color: Color(0xFF242A36),
-          fontWeight: FontWeight.bold,
-        ),
-        headline6: TextStyle(
-          fontSize: 12.0,
-          color: Color(0xFF242A36),
-          fontWeight: FontWeight.bold,
-        ),
-        bodyText1: TextStyle(
-          fontSize: 14.0,
-          color: Color(0xFF242A36),
-          fontWeight: FontWeight.w400,
-        ),
-        bodyText2: TextStyle(
-          fontSize: 12.0,
-          color: Color(0xFF242A36),
-          fontWeight: FontWeight.w400,
-        ),
-        button: TextStyle(
-          fontSize: 14.0,
-          color: Color(0xFF242A36),
-          fontWeight: FontWeight.w400,
-        ),
-        caption: TextStyle(
-          fontSize: 12.0,
-          color: Color(0xFF242A36),
-          fontWeight: FontWeight.w400,
-        ),
-        overline: TextStyle(
-          fontSize: 12.0,
-          color: Color(0xFF242A36),
-          fontWeight: FontWeight.w400,
-        ),
-      ),
-      colorScheme: material3 ? ColorScheme.fromSeed(seedColor: color) : null,
-      extensions: <ThemeExtension<dynamic>>[
-        const MyColors(
-          snackBarActionColor: Color(0xFF242A36),
-          colour: Color(0xFF00296B),
-          errorColour: Color(0xFFB00020),
-          decoration: BoxDecoration(
-            color: Color(0xFFEEEEEE),
-          ),
-        ),
-      ],
-    );
-  }
-
   static ThemeData dark(Color color, bool material3) {
     return ThemeData.dark().copyWith(
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -151,6 +55,12 @@ class StreamzTheme extends ChangeNotifier {
           foregroundColor: const Color(0xFF242A36),
           backgroundColor: const Color(0xFFE2E6ED),
         ),
+      ),
+      sliderTheme: SliderThemeData(
+        thumbColor: const Color(0xFFEE6C4D),
+        activeTrackColor: const Color(0xFFE0FBFC),
+        inactiveTrackColor: const Color(0xFFE2E6ED),
+        overlayShape: SliderComponentShape.noThumb,
       ),
       appBarTheme: const AppBarTheme(
         color: Color(0xFF242A36),
@@ -237,13 +147,13 @@ class StreamzTheme extends ChangeNotifier {
     );
   }
 
-  static bool _isDarkTheme = true;
-  bool get isDarkTheme => _isDarkTheme;
+  // static bool _isDarkTheme = true;
+  // bool get isDarkTheme => _isDarkTheme;
 
-  ThemeMode get currentTheme => _isDarkTheme ? ThemeMode.dark : ThemeMode.light;
+  // ThemeMode get currentTheme => _isDarkTheme ? ThemeMode.dark : ThemeMode.light;
 
-  void toggleTheme() {
-    _isDarkTheme = !_isDarkTheme;
-    notifyListeners();
-  }
+  // void toggleTheme() {
+  //   _isDarkTheme = !_isDarkTheme;
+  //   notifyListeners();
+  // }
 }
