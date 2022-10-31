@@ -1,8 +1,10 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:streamz/core/services/services.dart';
 
+/*
+For more robust state app and API, this would be a good use
+But for this app, it's not necessary cause of the Mock API
+*/
 connect() {
   BaseOptions options = BaseOptions(
       baseUrl: baseUrl,
@@ -14,8 +16,6 @@ connect() {
   dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) async {
     return handler.next(options);
   }, onResponse: (response, handler) {
-    print(response.statusCode);
-    log(response.data.toString());
     return handler.next(response);
   }, onError: (DioError e, handler) {
     return handler.next(e);

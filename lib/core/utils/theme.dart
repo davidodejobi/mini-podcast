@@ -58,7 +58,7 @@ class StreamzTheme extends ChangeNotifier {
       ),
       sliderTheme: SliderThemeData(
         thumbColor: const Color(0xFFEE6C4D),
-        activeTrackColor: const Color(0xFFE0FBFC),
+        activeTrackColor: const Color(0xFF98C1D9),
         inactiveTrackColor: const Color(0xFFE2E6ED),
         overlayShape: SliderComponentShape.noThumb,
       ),

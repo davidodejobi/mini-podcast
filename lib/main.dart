@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:streamz/modules/Details/view_models/details_provider.dart';
 import 'package:streamz/modules/dashboard/view_model/dashboard_provider.dart';
 
 import 'locator.dart';
@@ -23,8 +24,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<StreamzTheme>(
-          create: (_) => StreamzTheme(),
+        ChangeNotifierProvider<DetailsProvider>(
+          create: (_) => DetailsProvider(),
         ),
         ChangeNotifierProvider<DashboardProvider>(
           create: (_) => DashboardProvider(),

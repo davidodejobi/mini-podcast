@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:streamz/router/route.dart';
 
-import '../modules/Details/details.dart';
 import '../modules/dashboard/dashboard.dart';
 
 class RouteGenerator {
@@ -9,8 +8,8 @@ class RouteGenerator {
     switch (settings.name) {
       case dashBoardRoute:
         return MaterialPageRoute(builder: (_) => const Dashboard());
-      case '/details':
-        return MaterialPageRoute(builder: (_) => const Details());
+      // case '/details':
+      //   return MaterialPageRoute(builder: (_) => const Details());
       // case '/login':
       //   return MaterialPageRoute(builder: (_) => LoginUI());
       default:
