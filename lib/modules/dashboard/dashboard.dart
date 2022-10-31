@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 import 'package:streamz/constant/helper/helper.dart';
 import 'package:streamz/modules/Details/details.dart';
@@ -31,7 +32,15 @@ class Dashboard extends StatelessWidget {
                         return ListView.separated(
                           itemCount: 5,
                           itemBuilder: (BuildContext context, int index) {
-                            return DashboardShimmer();
+                            return DashboardShimmer()
+                                .animate(
+                                    onPlay: (controller) => controller.repeat())
+                                .shimmer(
+                                  color: Theme.of(context)
+                                      .cardColor
+                                      .withOpacity(0.6),
+                                  duration: const Duration(seconds: 1),
+                                );
                           },
                           separatorBuilder: (context, index) {
                             return const YMargin(16);
@@ -62,6 +71,7 @@ class Dashboard extends StatelessWidget {
                                       );
                                     },
                                     child: ItemCard(
+                                      index: index,
                                       stream: dashboardProvider.streams[index],
                                     ),
                                   );
@@ -80,8 +90,10 @@ class Dashboard extends StatelessWidget {
           ),
           Consumer<DashboardProvider>(
             builder: (context, dbProvider, child) {
-              return SizedBox(
-                height: 65,
+              return AnimatedContainer(
+                duration: const Duration(milliseconds: 1000),
+                curve: Curves.slowMiddle,
+                height: dbProvider.bottomActionAct ? 65 : 0,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -95,28 +107,36 @@ class Dashboard extends StatelessWidget {
                     Row(
                       children: [
                         CachedNetworkImage(
-                          imageUrl:
-                              "https://storage.googleapis.com/me-samples-public-2/some-animal-friends-in-africa.png",
+                          imageUrl: dbProvider.imageUrl,
                           height: 60,
                           width: 100,
                           fit: BoxFit.cover,
                         ),
                         const XMargin(5),
-                        Text(
-                          "Doctor Strange",
-                          maxLines: 1,
-                          style:
-                              Theme.of(context).textTheme.headline4!.copyWith(
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
+                        Expanded(
+                          child: Text(
+                            dbProvider.title,
+                            maxLines: 1,
+                            style:
+                                Theme.of(context).textTheme.headline4!.copyWith(
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                          ),
                         ),
-                        const Spacer(),
                         IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.play_arrow_rounded,
+                          onPressed: () {
+                            if (!dbProvider.isPlayingAudio) {
+                              dbProvider.playAudio(dbProvider.songUrl);
+                            } else {
+                              dbProvider.pauseAudio();
+                            }
+                          },
+                          icon: Icon(
+                            !dbProvider.isPlayingAudio
+                                ? Icons.play_arrow_rounded
+                                : Icons.pause_rounded,
                             size: 30,
-                            color: Color(0xFFEE6C4D),
+                            color: const Color(0xFFEE6C4D),
                           ).paddingRight,
                         ),
                       ],
