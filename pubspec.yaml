@@ -18,8 +18,10 @@ dependencies:
   flutter_animate: ^2.0.0
   flutter_svg: ^1.1.5
   get_it: ^7.2.0
-  http: ^0.13.5
+  open_file: ^3.2.1
+  path_provider: ^2.0.11
   provider: ^6.0.4
+  flutter_secure_storage: ^6.0.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0

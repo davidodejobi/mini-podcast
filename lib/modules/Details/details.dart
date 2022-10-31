@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -7,13 +10,20 @@ import 'package:streamz/shared/margin.dart';
 import 'package:streamz/shared/pop_appbar.dart';
 
 import '../../core/core.dart';
+import '../../core/services/storage_service.dart';
+import '../../locator.dart';
 
+StorageService storageService = getIt<StorageService>();
+
+// ignore: must_be_immutable
 class Details extends StatelessWidget {
   final StreamModel stream;
-  const Details({
+  Details({
     required this.stream,
     Key? key,
   }) : super(key: key);
+
+  bool hasDownloaded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -103,14 +113,33 @@ class Details extends StatelessWidget {
                         radius: 30,
                         backgroundColor: const Color(0xFFEE6C4D),
                         child: IconButton(
-                          onPressed: () {
-                            value.audio();
-
-                            if (!value.isPlayingAudio) {
-                              value.playAudio(stream.audioUrl!);
+                          onPressed: () async {
+                            String file = await storageService
+                                .readItem(key: stream.title!)
+                                .then((value) {
+                              if (value != null) {
+                                hasDownloaded = true;
+                                return value;
+                              } else {
+                                hasDownloaded = false;
+                                return '';
+                              }
+                            });
+                            // ignore: unnecessary_null_comparison
+                            if (file.isEmpty || file == null) {
+                              if (!value.isPlayingAudio) {
+                                value.playAudio(stream.audioUrl!);
+                              } else {
+                                value.pauseAudio();
+                              }
                             } else {
-                              value.pauseAudio();
+                              if (!value.isPlayingAudio) {
+                                value.playDownloadedAudio(File(file));
+                              } else {
+                                value.pauseAudio();
+                              }
                             }
+                            log('hasDownloaded: $hasDownloaded');
                           },
                           icon: Icon(
                             !value.isPlayingAudio
@@ -121,14 +150,23 @@ class Details extends StatelessWidget {
                           ),
                         ),
                       ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.download,
-                          color: Theme.of(context).primaryColor,
-                          size: 20,
-                        ),
-                      ),
+                      !value.isDownloading
+                          ? IconButton(
+                              onPressed: () {
+                                value.downloadFile(
+                                    stream.audioUrl!, stream.title!);
+                              },
+                              icon: Icon(
+                                Icons.download,
+                                color: Theme.of(context).primaryColor,
+                                size: 20,
+                              ),
+                            )
+                          : const SizedBox(
+                              height: 30,
+                              width: 30,
+                              child: CircularProgressIndicator(),
+                            ),
                     ],
                   ),
                 ),
