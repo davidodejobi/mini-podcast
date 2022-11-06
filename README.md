@@ -8,8 +8,8 @@ In addition, the user can download the audio file so they can listen to the audi
 
 ## Features
 
-- Get list of item
-- Preview audio from first screen
+- Get list of the item
+- Preview/play audio from the first screen
 - Audio Progress/details tracking from first screen
 - Download audio for offline replay.
 - Cross platform
