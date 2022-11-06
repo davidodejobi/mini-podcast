@@ -41,9 +41,11 @@ Go to the project directory
 ```
 
 Install dependencies
+```bash
+  flutter pu get
+```
 
 ```bash
-  //note you need to add the base API to make the app run without error...
   cd run
 ```
 
@@ -52,3 +54,4 @@ Install dependencies
 
 ![](ss/streamz.mp4)
 
+`
